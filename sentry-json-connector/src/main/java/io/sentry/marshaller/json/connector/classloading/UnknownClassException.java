@@ -1,8 +1,15 @@
 package io.sentry.marshaller.json.connector.classloading;
 
-public class UnknownClassException extends RuntimeException {
-    public UnknownClassException(String msg) {
+/**
+ * Exception when class not found in runtime classpath.
+ */
+class UnknownClassException extends RuntimeException {
+    /**
+     * Class not found in runtime exception.
+     *
+     * @param msg Reason message.
+     */
+    UnknownClassException(String msg) {
         super(msg);
     }
 }
-

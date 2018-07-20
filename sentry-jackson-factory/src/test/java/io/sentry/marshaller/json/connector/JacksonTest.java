@@ -14,17 +14,17 @@ public class JacksonTest {
 
     @Before
     public void setup() {
-        RuntimeClasspathJsonFactoryLocator.JSON_FACTORY.set(null);
+        JsonFactoryRuntimeClasspathLocator.JSON_FACTORY.set(null);
     }
 
     @After
     public void tearDown() throws Exception {
-        RuntimeClasspathJsonFactoryLocator.JSON_FACTORY.set(null);
+        JsonFactoryRuntimeClasspathLocator.JSON_FACTORY.set(null);
     }
 
     @Test
     public void testClassIsNotAvailable() {
-        RuntimeClasspathJsonFactoryLocator locator = new RuntimeClasspathJsonFactoryLocator() {
+        JsonFactoryRuntimeClasspathLocator locator = new JsonFactoryRuntimeClasspathLocator() {
             @Override
             protected boolean isAvailable(String fqcn) {
                 return false;
@@ -41,10 +41,10 @@ public class JacksonTest {
     public void testCompareAndSetFalse() {
         final JsonFactory deserializer = createMock(JsonFactory.class);
 
-        RuntimeClasspathJsonFactoryLocator locator = new RuntimeClasspathJsonFactoryLocator() {
+        JsonFactoryRuntimeClasspathLocator locator = new JsonFactoryRuntimeClasspathLocator() {
             @Override
-            protected boolean compareAndSet(JsonFactory d) {
-                RuntimeClasspathJsonFactoryLocator.JSON_FACTORY.set(deserializer);
+            protected boolean compareAndSet(JsonFactory factory) {
+                JsonFactoryRuntimeClasspathLocator.JSON_FACTORY.set(deserializer);
                 return false;
             }
         };
@@ -55,7 +55,7 @@ public class JacksonTest {
 
     @Test(expected = IllegalStateException.class)
     public void testLocateReturnsNull() {
-        RuntimeClasspathJsonFactoryLocator locator = new RuntimeClasspathJsonFactoryLocator() {
+        JsonFactoryRuntimeClasspathLocator locator = new JsonFactoryRuntimeClasspathLocator() {
             @Override
             protected JsonFactory locate() {
                 return null;
@@ -66,7 +66,7 @@ public class JacksonTest {
 
     @Test
     public void testJackson() {
-        JsonFactory factory = new RuntimeClasspathJsonFactoryLocator().getInstance();
+        JsonFactory factory = new JsonFactoryRuntimeClasspathLocator().getInstance();
         assertTrue(factory instanceof JsonFactoryImpl);
     }
 }

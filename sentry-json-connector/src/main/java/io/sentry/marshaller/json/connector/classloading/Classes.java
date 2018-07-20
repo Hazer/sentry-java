@@ -1,11 +1,13 @@
 package io.sentry.marshaller.json.connector.classloading;
 
 /**
- * Based of: https://github.com/jwtk/jjwt/blob/8afca0d0df6248a017f6004dfc6f692f0463545c/src/main/java/io/jsonwebtoken/lang/Classes.java
+ * A simple Classloader helper.
+ * <p>
+ * Based on:
+ * [https://github.com/jwtk/jjwt/
+ * blob/8afca0d0df6248a017f6004dfc6f692f0463545c/src/main/java/io/jsonwebtoken/lang/Classes.java]
  */
 public final class Classes {
-    private Classes() {}
-
     private static final Classes.ClassLoaderAccessor THREAD_CL_ACCESSOR = new Classes.ExceptionIgnoringAccessor() {
         @Override
         protected ClassLoader doGetClassLoader() throws Throwable {
@@ -27,6 +29,9 @@ public final class Classes {
         }
     };
 
+    private Classes() {
+    }
+
     /**
      * Attempts to load the specified class name from the current thread's
      * {@link Thread#getContextClassLoader() context class loader}, then the
@@ -36,6 +41,7 @@ public final class Classes {
      * the JRE's <code>ClassNotFoundException</code>.
      *
      * @param fullyQualifiedClassName the fully qualified class name to load
+     * @param <T> Class type found.
      * @return the located class
      * @throws UnknownClassException if the class cannot be found.
      */
@@ -53,8 +59,9 @@ public final class Classes {
         }
 
         if (clazz == null) {
-            String msg = "Unable to load class named [" + fullyQualifiedClassName + "] from the thread context, current, or " +
-                    "system/application ClassLoaders.  All heuristics have been exhausted.  Class could not be found.";
+            String msg = "Unable to load class named [" + fullyQualifiedClassName + "] from the thread context, "
+                    + "current, or system/application ClassLoaders.  "
+                    + "All heuristics have been exhausted.  Class could not be found.";
 
             throw new UnknownClassException(msg);
         }
@@ -62,6 +69,12 @@ public final class Classes {
         return clazz;
     }
 
+    /**
+     * Checks if classname is available in classpath.
+     *
+     * @param fullyQualifiedClassName classname to search for.
+     * @return if class is available in runtime.
+     */
     public static boolean isAvailable(String fullyQualifiedClassName) {
         try {
             forName(fullyQualifiedClassName);
@@ -71,11 +84,23 @@ public final class Classes {
         }
     }
 
+    /**
+     * Instantiate class from given name using no-arguments constructor.
+     * @param fullyQualifiedClassName Classname to instantiate.
+     * @param <T> Class type.
+     * @return New T class instance.
+     */
     @SuppressWarnings("unchecked")
-    public static <T> T newInstance(String fqcn) {
-        return (T)newInstance(forName(fqcn));
+    public static <T> T newInstance(String fullyQualifiedClassName) {
+        return (T) newInstance(forName(fullyQualifiedClassName));
     }
 
+    /**
+     * Instantiate given Class using no-arguments constructor.
+     * @param clazz Class to instantiate.
+     * @param <T> Class type.
+     * @return New T class instance.
+     */
     public static <T> T newInstance(Class<T> clazz) {
         if (clazz == null) {
             String msg = "Class method parameter cannot be null.";
@@ -89,10 +114,10 @@ public final class Classes {
     }
 
     private interface ClassLoaderAccessor {
-        Class loadClass(String fqcn);
+        Class loadClass(String fullyQualifiedClassName);
     }
 
-    private static abstract class ExceptionIgnoringAccessor implements Classes.ClassLoaderAccessor {
+    private abstract static class ExceptionIgnoringAccessor implements Classes.ClassLoaderAccessor {
 
         public Class loadClass(String fqcn) {
             Class clazz = null;

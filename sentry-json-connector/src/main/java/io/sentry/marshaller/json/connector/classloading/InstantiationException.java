@@ -1,7 +1,16 @@
 package io.sentry.marshaller.json.connector.classloading;
 
-public class InstantiationException extends RuntimeException {
-    public InstantiationException(String message, Throwable cause) {
+/**
+ * Exception when classpath runtime instantiation fails.
+ */
+class InstantiationException extends RuntimeException {
+    /**
+     * Class instantiation failed issue.
+     *
+     * @param message Reason message.
+     * @param cause Original instantiation Throwable cause.
+     */
+    InstantiationException(String message, Throwable cause) {
         super(message, cause);
     }
 }

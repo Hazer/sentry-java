@@ -7,7 +7,7 @@ import io.sentry.event.interfaces.SentryInterface;
 import io.sentry.marshaller.Marshaller;
 import io.sentry.marshaller.json.connector.JsonFactory;
 import io.sentry.marshaller.json.connector.JsonGenerator;
-import io.sentry.marshaller.json.connector.RuntimeClasspathJsonFactoryLocator;
+import io.sentry.marshaller.json.connector.JsonFactoryRuntimeClasspathLocator;
 import io.sentry.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,7 +147,7 @@ public class JsonMarshaller implements Marshaller {
      */
     public JsonMarshaller(int maxMessageLength) {
         this.maxMessageLength = maxMessageLength;
-        jsonFactory = new RuntimeClasspathJsonFactoryLocator().getInstance();
+        jsonFactory = new JsonFactoryRuntimeClasspathLocator().getInstance();
     }
 
     @Override

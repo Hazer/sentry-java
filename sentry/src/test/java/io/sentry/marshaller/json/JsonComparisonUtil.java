@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.sentry.BaseTest;
 import io.sentry.marshaller.json.connector.JsonGenerator;
-import io.sentry.marshaller.json.connector.RuntimeClasspathJsonFactoryLocator;
+import io.sentry.marshaller.json.connector.JsonFactoryRuntimeClasspathLocator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -52,7 +52,7 @@ public final class JsonComparisonUtil extends BaseTest {
         private final JsonGenerator jsonGenerator;
 
         private JsonGeneratorParser() throws Exception {
-            jsonGenerator = new RuntimeClasspathJsonFactoryLocator().getInstance().createGenerator(outputStream);
+            jsonGenerator = new JsonFactoryRuntimeClasspathLocator().getInstance().createGenerator(outputStream);
         }
 
 
