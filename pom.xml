@@ -144,14 +144,20 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>sentry-jackson-factory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>sentry</artifactId>
                 <version>${project.version}</version>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>sentry-jackson-factory</artifactId>
+                <artifactId>sentry-json-connector</artifactId>
                 <version>${project.version}</version>
+                <type>test-jar</type>
             </dependency>
 
             <dependency>
